@@ -1,4 +1,4 @@
-{
+﻿{
     "type": "FeatureCollection",
     "generator": "overpass-ide",
     "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
@@ -12,14 +12,14 @@
                 "addr:conscriptionnumber": "693",
                 "addr:country": "CZ",
                 "addr:housenumber": "693/110",
-                "addr:place": "\u017di\u017ekov",
+                "addr:place": "Žižkov",
                 "addr:postcode": "13000",
-                "addr:street": "Bo\u0159ivojova",
+                "addr:street": "Bořivojova",
                 "addr:streetnumber": "110",
                 "addr:suburb": "Praha 3",
                 "amenity": "restaurant",
                 "facebook": "https://www.facebook.com/uhoudku/",
-                "name": "U Houdk\u016f",
+                "name": "U Houdků",
                 "opening_hours": "Mo-Su 11:00-23:45",
                 "outdoor_seating": "yes",
                 "phone": "+420 222 711 239",
@@ -27,8 +27,7 @@
                 "smoking": "outside",
                 "source:addr": "cuzk:ruian",
                 "source:loc": "survey",
-                "website": "http://www.uhoudku.websnadno.cz/",
-                "cluster_id": false
+                "website": "http://www.uhoudku.websnadno.cz/"
             },
             "geometry": {
                 "type": "Point",
@@ -37,7 +36,8 @@
                     50.0824314
                 ]
             },
-            "id": "node/268781942"
+            "id": "node/268781942",
+            "cluster_id": "1af5e862-9e95-11ed-af3d-1831bf25ce93"
         },
         {
             "type": "Feature",
@@ -46,11 +46,10 @@
                 "addr:conscriptionnumber": "1323",
                 "addr:housenumber": "1323/84",
                 "addr:postcode": "13000",
-                "addr:street": "Slezsk\u00e1",
+                "addr:street": "Slezská",
                 "addr:streetnumber": "84",
                 "source:addr": "uir_adr",
-                "uir_adr:ADRESA_KOD": "21761159",
-                "cluster_id": false
+                "uir_adr:ADRESA_KOD": "21761159"
             },
             "geometry": {
                 "type": "Point",
@@ -59,7 +58,8 @@
                     50.0761998
                 ]
             },
-            "id": "node/296443989"
+            "id": "node/296443989",
+            "cluster_id": "1af5e862-9e95-11ed-af3d-1831bf25ce93"
         }
     ]
 }
