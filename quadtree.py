@@ -1,11 +1,14 @@
 import uuid
 
 class Point:
+    # Konstruktor je volán při vytvoření nové instance a přiřazuje hodnoty x a y k atributům self.x a self.y.
+        # Tím se vytvoří nový bod s konkrétními souřadnicemi.
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
 class QuadTree:
+    # konstruktor třídy Quadtree, inicializuje všechny atributy třídy
     def __init__(self, NL_point, NR_point, SL_point, SR_point, result):
         self.result = result
         self.features = []
@@ -18,12 +21,14 @@ class QuadTree:
         self.SR_child = None
         self.SL_child = None
 
+    # Tato funkce slouží k rozdělení quadtree na menší části pokud počet prvků v quadtree přesáhne 50
+    # Funkce prochází všechny prvky v quadtree a přiděluje je do čtvrtí NL, NR, SR nebo SL.
+    # Pokud se jedná o první prvek v čtvrti, vytvoří se nový Quadtree pro tuto čtvrť
     def divide(self):
         if len(self.features) <= 50:
             id = uuid.uuid1().__str__()
             for feature in self.features:
                 self.result.append(self.setFeatureGroup(feature, id))
-
             return
 
         mid = Point((self.NL_point.x + self.SR_point.x)/2, (self.NL_point.y + self.SR_point.y)/2)
@@ -55,9 +60,11 @@ class QuadTree:
         if (self.SR_child != None):
             self.SR_child.divide()
 
+    # Slouží k vložení prvku do quadtree
     def insert(self, feature):
         self.features.append(feature)
 
+    # nastaví ID skupiny pro daný prvek a vrátí ho.
     def setFeatureGroup(self, feature, id):
         feature.feature["cluster_id"] = id
         return feature
