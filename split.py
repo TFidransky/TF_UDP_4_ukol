@@ -36,7 +36,7 @@ def open_geojson(filename):
         exit(1)
     return data
 
-# Převádí data GeoJSON souboru na seznam objektů třídy Feature. Funkce přijímá jako vstupní proměnnou "data" (soubor už zkontrolovaný pro správný vstup)
+# Převádí data GeoJSON souboru na seznam objektů features. Funkce přijímá jako vstupní proměnnou "data" (soubor už zkontrolovaný pro správný vstup)
 # Poté vrací seznam objektů "features"
 def parse_to_features(data):
     features = []
@@ -55,7 +55,7 @@ def write_to_file(features, data):
     json.dump(data, out_file, ensure_ascii=False, indent=4)
 
 # Funkce, která obsahuje hlavní průběh programu. V základu otevírá program se souborem specificky pojmenovaným "input.geojson", takže buď lze změnit tady, 
-# případně program je možné upravit aby se ptal uživatele na název souboru.
+# případně program je možné upravit tento program tak, aby se ptal uživatele na název souboru.
 # Po otevření souboru převádí data na seznam "features", vytváří quadtree a zapisuje data do souboru
 def main():
     data = open_geojson("input.geojson")

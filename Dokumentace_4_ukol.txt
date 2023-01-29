@@ -1,0 +1,32 @@
+Tento program řeší efektivní rozdělení geografických prvků do skupin, tak aby v každé skupině bylo maximálně 50 prvků. 
+Výstupem je soubor „output.geojson“, který zachovává strukturu vstupního souboru, ale přidává k nim „cluster_id“ – proměnnou, která je unikátní pro každou skupinu (v té skupině stejné ID pro všechny prvky).
+Funkce finálního programu je založena na existenci dvou individuálních programů: quadtree, který řeší rozdělení prvků do skupin tak, aby v každé skupině bylo maximálně 50 prvků a zároveň toto rozdělení bylo efektivní, 
+	i pro velký počet bodů v prostoru. Funguje tak, že se prostor rozděluje na čtyři části 
+(v mém programu NL, NR, SL, SR a každý bod se umisťuje do příslušné části. Je zde nastaven limit 50 bodů pro jednu část – v případě, že se v nějaké části nachází 51 a více bodů, tak dojde k dalšímu dělení (opět NL, NR, SL, SR) 
+	v tomto přesyceném bloku, a toto dělení se opakuje dokud v dané části není 50 a méně bodů. 
+
+Pro výpočet v základu vstupuje GeoJSON z <https://overpass-turbo.eu/>, a v datech potřebuje postupnou strukturu: ["features"] → ["geometry"] → ["coordinates"], přičemž v ["coordinates"] se nachází koordinační údaje o každém bodu.
+	V tomto použitém souboru byly data v systému WGS-84 a tedy ve formátu: zeměpisná délka, zeměpisná šířka
+
+Program quadtree.py
+	Funguje pro efektivní rozdělování bodů v prostoru. Funguje na principu rozdělování prostoru do 4 částí (NL, NR, SL, SR) a v případě, že je v nějaké části více bodů než máme nastaveno za limit (v tomto programu 51 a více), tak
+	danou část prostoru rozděli opět na 4 části. Takhle bude problémovou (více než 50 bodů) část prostoru rozdělovat dokud nebude splněna podmínka o maximálním počtu bodů v každé části prostoru.
+	Díky rozdělování prostoru tímto způsobem se předejde neefektivnímu rozdělování prostoru = situaci, kdy by v jedné části byly body z opačných stran zvoleného prostoru.
+	Na konci programu každému prvku přiřadí ID, které je unikátní pro danou skupinu (a samozřejmě všechny body v jedné skupině sdíli stejné ID). Toto ID přidá do souboru GeoJSON, ke každému prvku. Tento soubor má stejnou strukturu
+	jako vstupní s tím dodatkem, že je u každého prvku nově i toto ID.
+
+Program split.py
+	První důležitou funkcí je otevření a zkontrolování vstupního souboru. Program zkouší soubor otevřít (název se upravuje ve funkci main) a pokud nastane nějaký problém, tak vypíše uživateli příslušnou chybovou hlášku. Možnosti jsou:
+		1) program projde kontrolou, hodnoty ze souboru se načtou do proměnné "data" a tato proměnná se vrátí, aby s ní bylo možné dál počítat
+		2) program neprojde kontrolou, vypíše uživateli chybovou hlášku dle typu chyby:
+			a) prázdný soubor
+			b) neexistující soubor - respektive neexistoval na místě, kde ho program očekával (ve stejné složce jako program)
+			c) nevhodný formát vstupního souboru
+
+	Program poté převádí data GeoJSON souboru na seznam objektů "features", který má připnuté koordinační informace o každém objektu.
+
+	Poté dochází k zápisu do nového souboru, v základu pojmenovaném "output.geojson". Výstupní funkce je napsána tak, aby výstupní soubor měl stejnou strukturu jako vstupní a jediné co se změní je přidání "cluster_id"
+		"cluster_id" - viz program quadtree.py část
+
+	Nakonec ve funkci main dochází k k načtení specifického souboru (v základu "input.geojson"), převodu dat z tohoto souboru na seznam "features" a dochází k rozdělení bodů do části 
+	pomocí algoritmu quadtree (import vnitřku programu quadtree.py), a nakonec dochází k zápisu do nového souboru.
