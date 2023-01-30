@@ -18,7 +18,7 @@ class Feature:
         return "Coord: " + str(self.x_coord) + ", " + str(self.y_coord) + "\n"
 
 # Otevírá GeoJSON, pokud je vstupní soubor ve špatném formátu (i pořadí a názvy klíčů), je prázdný nebo neexistuje na správné pozici, tak program vyhodí adekvátní error kód a ukončí program
-
+# Také kontroluje jestli jsou na správných úrovních správně pojmenované klíče - opět vyhodí příslušnou chybovou hlášku, pokud není
 def open_geojson(filename):
     try:
         with open(filename, encoding='utf-8') as f:

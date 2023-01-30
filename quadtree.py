@@ -8,7 +8,7 @@ class Point:
         self.y = y
 
 class QuadTree:
-    # konstruktor třídy Quadtree, inicializuje všechny atributy třídy
+    # konstruktor třídy Quadtree, inicializuje všechny atributy třídy N-north S-south L-left R-right (pointy - souřadnice čtyř rohů obdelníku, childy - podobdélníky)
     def __init__(self, NL_point, NR_point, SL_point, SR_point, result):
         self.result = result
         self.features = []

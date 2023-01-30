@@ -22,7 +22,7 @@ Program split.py
 			a) prázdný soubor
 			b) neexistující soubor - respektive neexistoval na místě, kde ho program očekával (ve stejné složce jako program)
 			c) nevhodný formát vstupního souboru
-			d) soubor existuje a něco v něm je, ale je tam špatně zadaný nějaký klíč (program vyžaduje klíč "geometry" a v něm další klíč "coordinates")
+			d) soubor existuje a něco v něm je, ale je tam špatně zadaný nějaký klíč (program vyžaduje klíč "geometry" a v něm další klíč "coordinates") - buď na špatné úrovni je klíč a nebo špatně pojmenovaný klíč
 
 	Program poté převádí data GeoJSON souboru na seznam objektů "features", který má připnuté koordinační informace o každém objektu.
 
