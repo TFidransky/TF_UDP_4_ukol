@@ -28,10 +28,11 @@ def open_geojson(filename):
             data = json.load(f)
             if "features" not in data:
                 raise Exception("Vstupní soubor neobsahuje klíč 'features'")
-            if "geometry" not in data["features"][0]:
-                raise Exception("Vstupní soubor neobsahuje klíč 'geometry' uvnitř klíče 'features'")
-            if "coordinates" not in data["features"][0]["geometry"]:
-                raise Exception("Vstupní soubor neobsahuje klíč 'coordinates' uvnitř klíče 'geometry' uvnitř klíče 'features'")
+            for feature in data["features"]:
+                if "geometry" not in feature:
+                    raise Exception("Vstupní soubor neobsahuje klíč 'geometry' uvnitř klíče 'features'")
+                if "coordinates" not in feature["geometry"]:
+                    raise Exception("Vstupní soubor neobsahuje klíč 'coordinates' uvnitř klíče 'geometry' uvnitř klíče 'features'")
 
     except FileNotFoundError:
         print(f"Vstupní soubor {filename} nebyl nalezen.")
@@ -56,7 +57,7 @@ def parse_to_features(data):
         features.append(Feature(feature,coord[0],coord[1]))
     return features
 
-# Funkce zapisující data do nového souboru "output.geojson" Přijímá dva vstupní parametry (seznam objektů "features" a objekt geojson souboru "data")
+# Funkce zapisující data do nového souboru "output.geojson" Přijímá dva vstupní parametry (seznam objektů "features" (které již budou osahovat cluster_id) a objekt geojson souboru "data"(pro zapsání nezměněných atributů))
 def write_to_file(features, data):
     out_file = open("output.geojson", "w", encoding="utf-8-sig")
     json_features = []
