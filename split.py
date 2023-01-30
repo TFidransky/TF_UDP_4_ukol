@@ -17,7 +17,8 @@ class Feature:
     def __str__(self):
         return "Coord: " + str(self.x_coord) + ", " + str(self.y_coord) + "\n"
 
-# Otevírá GeoJSON, pokud je vstupní soubor ve špatném formátu, je prázdný nebo neexistuje na správné pozici, tak program vyhodí adekvátní error kód a ukončí program
+# Otevírá GeoJSON, pokud je vstupní soubor ve špatném formátu (i pořadí a názvy klíčů), je prázdný nebo neexistuje na správné pozici, tak program vyhodí adekvátní error kód a ukončí program
+
 def open_geojson(filename):
     try:
         with open(filename, encoding='utf-8') as f:
@@ -25,6 +26,13 @@ def open_geojson(filename):
                 raise EmptyFileException(f"Vstupní soubor {filename} je prázdný.")
             f.seek(0)
             data = json.load(f)
+            if "features" not in data:
+                raise Exception("Vstupní soubor neobsahuje klíč 'features'")
+            if "geometry" not in data["features"][0]:
+                raise Exception("Vstupní soubor neobsahuje klíč 'geometry' uvnitř klíče 'features'")
+            if "coordinates" not in data["features"][0]["geometry"]:
+                raise Exception("Vstupní soubor neobsahuje klíč 'coordinates' uvnitř klíče 'geometry' uvnitř klíče 'features'")
+
     except FileNotFoundError:
         print(f"Vstupní soubor {filename} nebyl nalezen.")
         exit(1)
@@ -34,6 +42,9 @@ def open_geojson(filename):
     except json.JSONDecodeError:
         print(f"Nevhodný formát vstupního souboru {filename}.")
         exit(1)
+    except Exception as e:
+        print(f"Chyba vstupního souboru {filename}: {e}")
+        exit(1)
     return data
 
 # Převádí data GeoJSON souboru na seznam objektů features. Funkce přijímá jako vstupní proměnnou "data" (soubor už zkontrolovaný pro správný vstup)
@@ -41,8 +52,8 @@ def open_geojson(filename):
 def parse_to_features(data):
     features = []
     for feature in data["features"]:
-        features.append(Feature(feature, feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1]))
-
+        coord = feature["geometry"]["coordinates"]
+        features.append(Feature(feature,coord[0],coord[1]))
     return features
 
 # Funkce zapisující data do nového souboru "output.geojson" Přijímá dva vstupní parametry (seznam objektů "features" a objekt geojson souboru "data")
